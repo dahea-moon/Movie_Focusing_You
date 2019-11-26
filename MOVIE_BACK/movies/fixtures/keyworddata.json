@@ -1,0 +1,162 @@
+[{
+        "pk": 1,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "키덜트"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "히어로"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "매력적인 캐릭터 "
+        }
+    },
+    {
+        "pk": 4,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "원작을 재해석한"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "탄탄한 스토리"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "영상미 넘치는"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "OST 가 좋은"
+        }
+    },
+    {
+        "pk": 8,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "작품성이 좋은"
+        }
+    },
+    {
+        "pk": 9,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "연기력"
+        }
+    },
+    {
+        "pk": 10,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "심오한"
+        }
+    },
+    {
+        "pk": 11,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "웅장한"
+        }
+    },
+    {
+        "pk": 12,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "잔인한"
+        }
+    },
+    {
+        "pk": 13,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "다양성"
+        }
+    },
+    {
+        "pk": 14,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "연애세포를 깨워줄"
+        }
+    },
+    {
+        "pk": 15,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "향수를 불러일으키는"
+        }
+    },
+    {
+        "pk": 16,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "잔잔한"
+        }
+    },
+    {
+        "pk": 17,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "충격적인"
+        }
+    },
+    {
+        "pk": 18,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "반전있는"
+        }
+    },
+    {
+        "pk": 19,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "감동적인"
+        }
+    },
+    {
+        "pk": 20,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "여운이 남는"
+        }
+    },
+    {
+        "pk": 21,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "화끈한"
+        }
+    },
+    {
+        "pk": 22,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "오글거리는"
+        }
+    },
+    {
+        "pk": 23,
+        "model": "movies.keyword",
+        "fields": {
+            "content": "감성적인"
+        }
+    }
+]
