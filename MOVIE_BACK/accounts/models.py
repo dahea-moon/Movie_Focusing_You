@@ -6,6 +6,9 @@ from movies.models import Keyword, Genre, Movie, Rating
 
 
 class User(AbstractUser):
+    username = models.CharField(max_length=20, unique=True, default=False)
+    email = models.CharField(max_length=100, unique=True, default=False)
+  
     keyword1 = models.ForeignKey(
         Keyword,
         null=True,
@@ -30,9 +33,9 @@ class User(AbstractUser):
         on_delete=models.SET_NULL,
         related_name='user_sub_genre'
         )
-    wishlist = models.ManyToManyField(Movie, related_name='wished_users')
-    watchedlist = models.ManyToManyField(Movie, related_name='watched_users')
-    rates = models.ManyToManyField(Movie, through='movies.Rating', related_name='rated_user')
+    wishlist = models.ManyToManyField(Movie, blank=True, related_name='wished_users')
+    watchedlist = models.ManyToManyField(Movie, blank=True, related_name='watched_users')
+    rates = models.ManyToManyField(Movie, blank=True, through='movies.Rating', related_name='rated_user')
 
     def get_absolute_url(self):
         return reverse("accounts:user_page", kwargs={"user_id": self.pk})

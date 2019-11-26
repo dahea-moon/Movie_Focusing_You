@@ -1,19 +1,40 @@
-from django.urls import path
-from . import views
+from django.shortcuts import get_object_or_404
 
-app_name = 'accounts'
+from rest_framework.response import Response  # JSON 응답 생성기
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny  # 회원가입은, 인증을 볼 필요가 없음.
 
-urlpatterns = [
-    path('', views.signup),
-    path('mypage/', views.mypage),
+from .serializers import UserCreationSerializer, UserSerializer
 
-    
-    # path('signup/', views.signup, name='signup'),
-    # path('login/', views.login, name='login'),
-    # path('logout/', views.logout, name='logout'),
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
-    # path('follow/<int:user_id>/', views.follow, name='follow'),
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def signup(request):
+    serializer = UserCreationSerializer(data=request.data)
+    if serializer.is_valid():
+        user = serializer.save()
+        user.set_password(user.password)
+        user.save()
+        return Response(status=200, data={'message': '회원가입 성공'})
+    return Response(status=400, data=serializer.errors)
 
-    # path('<int:user_id>/', views.user_page, name='user_page'),
-]
 
+@api_view(['GET', 'PATCH', 'DELETE'])
+def user_detail(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    if request.method == 'GET':
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+
+    if request.method == 'PATCH':
+        serializer = UserSerializer(instance=user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(status=400, data=serializer.errors)
+
+    elif request.method == 'DELETE':
+        user.delete()
+        return Response(status=204)

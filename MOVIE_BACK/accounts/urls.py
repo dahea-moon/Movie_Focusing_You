@@ -1,7 +1,9 @@
-from django.urls import path, include
+from django.urls import path
+from . import views
 
 app_name = 'accounts'
 
 urlpatterns = [
-
+    path('', views.signup),
+    path('<int:user_id>/', views.user_detail),
 ]

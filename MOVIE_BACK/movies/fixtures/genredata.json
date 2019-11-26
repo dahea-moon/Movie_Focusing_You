@@ -1,0 +1,302 @@
+[{
+        "pk": 1,
+        "model": "movies.genre",
+        "fields": {
+            "name": "드라마"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "movies.genre",
+        "fields": {
+            "name": "첩보"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "movies.genre",
+        "fields": {
+            "name": "옴니버스"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "movies.genre",
+        "fields": {
+            "name": "뮤직"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "movies.genre",
+        "fields": {
+            "name": "동성애"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "movies.genre",
+        "fields": {
+            "name": "로드무비"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "movies.genre",
+        "fields": {
+            "name": "아동"
+        }
+    },
+    {
+        "pk": 8,
+        "model": "movies.genre",
+        "fields": {
+            "name": "하이틴(고교)"
+        }
+    },
+    {
+        "pk": 9,
+        "model": "movies.genre",
+        "fields": {
+            "name": "전기"
+        }
+    },
+    {
+        "pk": 10,
+        "model": "movies.genre",
+        "fields": {
+            "name": "청춘영화"
+        }
+    },
+    {
+        "pk": 11,
+        "model": "movies.genre",
+        "fields": {
+            "name": "재난"
+        }
+    },
+    {
+        "pk": 12,
+        "model": "movies.genre",
+        "fields": {
+            "name": "문예"
+        }
+    },
+    {
+        "pk": 13,
+        "model": "movies.genre",
+        "fields": {
+            "name": "연쇄극"
+        }
+    },
+    {
+        "pk": 14,
+        "model": "movies.genre",
+        "fields": {
+            "name": "신파"
+        }
+    },
+    {
+        "pk": 15,
+        "model": "movies.genre",
+        "fields": {
+            "name": "활극"
+        }
+    },
+    {
+        "pk": 16,
+        "model": "movies.genre",
+        "fields": {
+            "name": "반공/분단"
+        }
+    },
+    {
+        "pk": 17,
+        "model": "movies.genre",
+        "fields": {
+            "name": "군사"
+        }
+    },
+    {
+        "pk": 18,
+        "model": "movies.genre",
+        "fields": {
+            "name": "계몽"
+        }
+    },
+    {
+        "pk": 19,
+        "model": "movies.genre",
+        "fields": {
+            "name": "사회물(경향)"
+        }
+    },
+    {
+        "pk": 20,
+        "model": "movies.genre",
+        "fields": {
+            "name": "스포츠"
+        }
+    },
+    {
+        "pk": 21,
+        "model": "movies.genre",
+        "fields": {
+            "name": "합작(번안물)"
+        }
+    },
+    {
+        "pk": 22,
+        "model": "movies.genre",
+        "fields": {
+            "name": "종교"
+        }
+    },
+    {
+        "pk": 23,
+        "model": "movies.genre",
+        "fields": {
+            "name": "무협"
+        }
+    },
+    {
+        "pk": 24,
+        "model": "movies.genre",
+        "fields": {
+            "name": "미스터리"
+        }
+    },
+    {
+        "pk": 25,
+        "model": "movies.genre",
+        "fields": {
+            "name": "SF"
+        }
+    },
+    {
+        "pk": 26,
+        "model": "movies.genre",
+        "fields": {
+            "name": "코미디"
+        }
+    },
+    {
+        "pk": 27,
+        "model": "movies.genre",
+        "fields": {
+            "name": "느와르"
+        }
+    },
+    {
+        "pk": 28,
+        "model": "movies.genre",
+        "fields": {
+            "name": "액션"
+        }
+    },
+    {
+        "pk": 29,
+        "model": "movies.genre",
+        "fields": {
+            "name": "범죄"
+        }
+    },
+    {
+        "pk": 30,
+        "model": "movies.genre",
+        "fields": {
+            "name": "어드벤처"
+        }
+    },
+    {
+        "pk": 31,
+        "model": "movies.genre",
+        "fields": {
+            "name": "가족"
+        }
+    },
+    {
+        "pk": 32,
+        "model": "movies.genre",
+        "fields": {
+            "name": "에로"
+        }
+    },
+    {
+        "pk": 33,
+        "model": "movies.genre",
+        "fields": {
+            "name": "멜로드라마"
+        }
+    },
+    {
+        "pk": 34,
+        "model": "movies.genre",
+        "fields": {
+            "name": "공포"
+        }
+    },
+    {
+        "pk": 35,
+        "model": "movies.genre",
+        "fields": {
+            "name": "뮤지컬"
+        }
+    },
+    {
+        "pk": 36,
+        "model": "movies.genre",
+        "fields": {
+            "name": "시대극/사극"
+        }
+    },
+    {
+        "pk": 37,
+        "model": "movies.genre",
+        "fields": {
+            "name": "실험"
+        }
+    },
+    {
+        "pk": 38,
+        "model": "movies.genre",
+        "fields": {
+            "name": "스릴러"
+        }
+    },
+    {
+        "pk": 39,
+        "model": "movies.genre",
+        "fields": {
+            "name": "서부"
+        }
+    },
+    {
+        "pk": 40,
+        "model": "movies.genre",
+        "fields": {
+            "name": "전쟁"
+        }
+    },
+    {
+        "pk": 41,
+        "model": "movies.genre",
+        "fields": {
+            "name": "갱스터"
+        }
+    },
+    {
+        "pk": 42,
+        "model": "movies.genre",
+        "fields": {
+            "name": "판타지"
+        }
+    },
+    {
+        "pk": 43,
+        "model": "movies.genre",
+        "fields": {
+            "name": "해양액션"
+        }
+    }
+]
