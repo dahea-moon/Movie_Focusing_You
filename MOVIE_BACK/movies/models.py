@@ -75,13 +75,8 @@ class Rating(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     like = models.BooleanField()
     comment = models.CharField(max_length=100)
+    keyword1 = models.ForeignKey(Keyword, null=True, on_delete=models.SET_NULL, related_name='rating_main_keword')
+    keyword2 = models.ForeignKey(Keyword, null=True, on_delete=models.SET_NULL, related_name='rating_sub_keyword')
 
-
-class Movie_Keyword(models.Model):
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    keyword = models.ForeignKey(Keyword, on_delete=models.CASCADE)
-
-
-class User_Keyword(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    keyword = models.ForeignKey(Keyword, on_delete=models.CASCADE)
+    def __str__(self):
+        return f'{self.id}: {self.comment}'

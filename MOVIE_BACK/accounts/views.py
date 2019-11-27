@@ -22,14 +22,14 @@ def signup(request):
 
 
 @api_view(['GET', 'PATCH', 'DELETE'])
-def user_detail(request, user_id):
-    user = get_object_or_404(User, id=user_id)
+def user_detail(request):
+    user = request.user
     if request.method == 'GET':
         serializer = UserSerializer(user)
         return Response(serializer.data)
 
     if request.method == 'PATCH':
-        serializer = UserSerializer(instance=user, data=request.data)
+        serializer = UserSerializer(instance=user, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

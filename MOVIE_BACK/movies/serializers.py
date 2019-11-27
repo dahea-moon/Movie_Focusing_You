@@ -4,8 +4,8 @@ from .models import Rating, Movie
 
 User = get_user_model()
 
-
 class RatingSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Rating
         fields = '__all__'
@@ -13,7 +13,7 @@ class RatingSerializer(serializers.ModelSerializer):
 
 class MovieSerializer(serializers.ModelSerializer):
     rating_set = RatingSerializer(many=True)
+
     class Meta:
         model = Movie
         fields = '__all__'
-
