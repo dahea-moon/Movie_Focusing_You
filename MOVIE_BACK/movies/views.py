@@ -10,8 +10,9 @@ from rest_framework.decorators import api_view  # require_methods
 from django.shortcuts import render
 from django.core import serializers
 from django.db.models import Q
+from django_random_queryset import RandomManager
 
-from .models import Movie, Rating, User_Keyword, Movie_Keyword
+from .models import Movie, Rating
 from .serializers import MovieSerializer, RatingSerializer
 
 @api_view(['GET'])
@@ -30,28 +31,33 @@ def update_movie_keyword(request):
     pass
 
 @api_view(['POST'])
-def movie_suggestion(request):
+def movie_recommendations(request):
     user = request.user
     genre1 = user.genre1
     genre2 = user.genre2
+    
+    """
+    1. user_main_key, user_sub_key 모두 만족하는 영화
+    2. user_main_key, user_sub_key 둘 중 하나만 만족하는 영화
+    3. user main_genre, sub_genre 둘 다 만족
+    4. user main_genre, sub_genre 둘 중 하나만 만족
 
-    # frst, second key, first-sec genre 모두 갖는 영화 추출
+    """
     query = Q(genre1=genre1) | Q(genre2=genre1)
-    query.add(Q(genre1=genre2) | Q(genre2=genre2), Q.AND)
-    query.add(Q(keyword1=keyword1) | Q(keyword2=keyword1), Q.AND)
-    query.add(Q(keyword1=keyword2) | Q(keyword2=keyword2), Q.AND)
-
+    query.add(Q(genre1=genre2) | Q(genre2=genre2), Q.OR)
 
     if user.keyword1 != null:
-        query.add(Q(genre1=genre2) | Q(genre2=genre2), Q.AND)
         keyword1 = user.keyword1
         keyword2 = user.keyword2
-
-        movies_set = Movie.objects.filter(query)
-        movies_set
-        if movie_set.count() < 5:
-            serializers = MovieSerialzer(movie_set, many=True)
-            return Response(serializers)
+        query.add(Q(keyword1=keyword1) | Q(keyword2=keyword1), Q.OR)
+        query.add(Q(keyword1=keyword2) | Q(keyword2=keyword2), Q.OR)
+    
+    movies_set = Movie.objects.filter(query)
+    
+    if movies_set.count() > 5:
+        movies_set = movies_set.random(5)
+    serializer = MovieSerializer(movies_set, many=True)
+    return Response(serializer.data)
 
 
 # TODO : KEYWORD column 추가, watchedlist 추가
@@ -62,56 +68,15 @@ def movie_detail(request, movie_id):
     # Rating 생성
     if request.method == 'POST':
         user = request.user
-        serializer = RatingSerializer(data=request.data)
-
-        # U-K, M-K 모델 object 각각 생성
-        user_key1 = User_Keyword.objects.create(
-            user=request.user,
-            keyword=request.data.keyword1
-        )
-        movie_key1 = Movie_Keyword.objects.create(
-            movie=movie_id,
-            keyword=request.data.keyword1
-        )
+        rating = RatingSerializer(data=request.data)
+        if rating.is_valid(raise_exception=True):
+            rating.save()
+            return Response(status=200, data={'message': '평점 작성 성공'})
 
         # 생성한 후에 해당 유저와 해당 영화의 베스트 키워드 순위 집계 후 탑 2 를 갱신
 
-
-
-
-
-
-
-
-        if serializer.is_valid(raise_exception=True):
-
-            user_key1 = User_Keyword.objects.create(user=request.user, keyword=request.data.keyword1)
-            serializer.user_key1 = user_key1
-            user_key2 = User_Keyword.objects.create(user=request.user, keyword=request.data.keyword2)
-            serializer.user_key2 = user_key2
-
-            mov_key1 = Movie_Keyword.objects.create(movie=movie.id, keyword=request.data.keyword1)
-            serializer.mov_key1 = mov_key1
-            mov_key2 = Movie_Keyword.objects.create(movie=movie.id, keyword=request.data.keyword2)
-            serializer.mov_key2 = mov_key2
-
-            # TODO 아래 같이 써주면 movie 랑 user id 제대로 들어가는지 + 이럼에도 불구하고 POSTMAN 에서는 movie / user 를 꼭 넣어 줘야하는지.
-            serializer.save(movie=movie.id, user=user.id)
-
-            # 탑 2 내보내는건 onjects all 해서 oreder by 해서 앞에 2개
-
-            # user-key create
-                # user model 의 keyword 항목을 top 2 를 계산해서 update
-            # update_movie_keyword()
-            # movie-key create
-                # movie model 의 keyword 항목을 top 2 계산해서 update
-            # update_movie_keyword()
-            return Response(serializer.data)
-
-
-    elif request.method == 'GET':
-        serializer = MovieSerializer(movie)
-        return Response(serializer.data)
+    serializer = MovieSerializer(movie)
+    return Response(serializer.data)
 
 
 @api_view(['PATCH', 'DELETE'])
@@ -119,7 +84,11 @@ def rating_detail(request, movie_id, rating_id):
     rating = get_object_or_404(Rating, id=rating_id)
     if rating.user == request.user:
         if request.method == 'PATCH':
-            serializer = RatingSerializer(instance=rating, data=request.data, partial=True)
+            serializer = RatingSerializer(
+                instance=rating,
+                data=request.data,
+                partial=True
+            )
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data)
@@ -130,19 +99,14 @@ def rating_detail(request, movie_id, rating_id):
     return Response(status=403)
 
 
-
 # TODO: userpage로 이동
 def add_wishlist(request, movie_id):
     user = request.user
     movies = get_object_or_404(Movie, id=movie_id)
-    # user.wishlist 에 add
+    # TODO user.wishlist [] 에 movie_id 추가만!
     user.save()
     return Response(status=200, message='보고 싶은 영화 추가 성공!')
 
 
 def add_watched_movie(request, movie_id):
     pass
-
-
-
-
