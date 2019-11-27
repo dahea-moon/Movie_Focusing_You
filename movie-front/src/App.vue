@@ -15,6 +15,9 @@ export default {
   components: {
     Header,
     Menu
+  },
+  created () {
+    this.$store.dispatch('initalLogin')
   }
 }
 </script>

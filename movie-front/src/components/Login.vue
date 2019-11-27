@@ -1,28 +1,36 @@
 <template>
-  <div class="c-modalLogin">
+  <div>
     <div>
       <label for="name">User</label>
-      <input name="User">
+      <input name="User" v-model="credentials.username">
     </div>
 
     <div>
       <label for ="password">Password</label>
-      <input name="password" type="password">
+      <input name="password" type="password" v-model="credentials.password">
     </div>
-
-    <button class="c-modalLogin__cancel" @click="hideModal">Cancel</button>
+    <button type="submit" @click.prevent="login(credentials)">로그인</button>
   </div>
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
-  name: 'ModalLogin',
-  methods: {
-    ...mapMutations([
-      'hideModal',
-    ]),
+  name: 'login',
+  data() {
+    return {
+      credentials: {
+        username: '',
+        password: ''
+      }
+    }
   },
+  methods: {
+      ...mapActions(['login'])
+  },
+  computed: {
+      ...mapGetters(['getErrors'])
+  }
 };
 </script>

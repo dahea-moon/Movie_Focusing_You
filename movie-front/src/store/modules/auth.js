@@ -8,13 +8,21 @@ const state = {
     token: null,
     errors: [],
     loading: false,
+    userdetail: {},
 };
 
 // Vuex 에서는 Arrow Function
 const getters = {
-    isLoggedIn: state => !!state.token, // 특정 값을 true/false 로 바꾸는 구문
+    isLoggedIn: state => {
+        if (state.token) {
+            return true
+        } else {
+            return false
+        }
+    },
     getErrors: state => state.errors,
     isLoading: state => state.loading,
+    getUserDetail: state => state.userdetail
 };
 
 const mutations = {
@@ -25,6 +33,7 @@ const mutations = {
     },
     pushError: (state, error) => state.errors.push(error),
     clearErrors: state => state.errors = [],
+    setUserdetail: (state, detail) => state.userdetail = detail
 };
 
 const actions = {
@@ -42,7 +51,7 @@ const actions = {
         // 이미 로그인 했다면,
         // module 안에서는, getters 함수들은 computed 처럼, 리턴 값으로 존재한다. 실행 불가능 (getters.isLoggedIn() 은 Error)
         if (getters.isLoggedIn)  {
-            router.push('/');
+            router.push('/home');
         } 
         // 로그인 안했다면
         else {
@@ -54,34 +63,33 @@ const actions = {
                 commit('setLoading', false);
             }
             // password < 8
-            if (credentials.password < 8) {
-                commit('pushError', "password는 8자 이상이어야 합니다.");
+            if (!credentials.password) {
+                commit('pushError', "password를 입력하세요");
                 commit('setLoading', false);
             }
             // 요청 start
-            else {
+            if (!getters.getErrors.length) {
                 axios.post(HOST + 'api-token-auth/', credentials)
                     .then(token => {
                         commit('setToken', token.data.token);
                         commit('setLoading', false)
-                        router.push('/');
+                        router.push('/mypage');
                     })
                     .catch(err => {
                         if (!err.response) { // no reponse
-                            commit('pushError', 'Network Error..')
+                            commit('pushError', '네트워크가 불안정합니다.')
                         } else if (err.response.status === 400) {
-                            commit('pushError', 'Invalid username or password');
+                            commit('pushError', '아이디와 비밀번호를 확인해주세요');
                         } else if (err.response.status === 500) {
-                            commit('pushError', 'Internal Server error. Please try again later');
+                            commit('pushError', '나중에 다시 시도해주세요.');
                         } else {
-                            commit('pushError', 'Some error occured');
+                            commit('pushError', '알 수 없는 에러가 일어났습니다.');
                         }
                         commit('setLoading', false);
                     })
                 }
         }
     },
-
     signup: ({ commit, getters, dispatch }, userInfo) => {
         if (getters.isLoggedIn) {
             router.push('/');
@@ -115,15 +123,52 @@ const actions = {
                     }
                 })
                 .catch(err => {
-                    commit('pushError', err.response)
+                    if (!err.response) { // no reponse
+                        commit('pushError', '네트워크가 불안정합니다.')
+                    } else if (err.response.status === 400) {
+                        commit('pushError', '아이디와 비밀번호를 확인해주세요');
+                    } else if (err.response.status === 500) {
+                        commit('pushError', '나중에 다시 시도해주세요.');
+                    } else {
+                        commit('pushError', '알 수 없는 에러가 일어났습니다.');
+                    }
+                    commit('setLoading', false);
                 })
             } else {
                 commit('pushError', "비밀번호를 재확인 해주세요"); 
             }
         }
+    },
+    detail: ({ commit }) => {
+        const hash = sessionStorage.getItem('jwt');
+        const options = {
+            headers: {
+                Authorization: 'JWT ' + hash
+            }
+        };
+        axios.get(HOST+'api/v1/accounts/mypage/', options)
+        .then(res => {
+            commit('setUserdetail', res.data)
+        })
+        .catch(err => {
+            if (!err.response) { // no reponse
+                commit('pushError', '네트워크가 불안정합니다.')
+            } else if (err.response.status === 400) {
+                commit('pushError', '잘못된 정보입니다');
+            } else if (err.response.status === 500) {
+                commit('pushError', '나중에 다시 시도해주세요.');
+            } else {
+                commit('pushError', '알 수 없는 에러가 일어났습니다.');
+            }
+        })
+    },
+    initialLogin: ({ commit }) => {
+        const token = sessionStorage.getItem('jwt');
+        if (token) {
+            commit('setToken', token)
+        }
     }
-
-};
+}
 
 export default {
     state,

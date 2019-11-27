@@ -1,12 +1,29 @@
 <template>
-    <div>
-        
-    </div>
+    <Bubble id="page-wrap">
+        <router-link to="/home">
+            <span>Home</span>
+        </router-link>
+        <router-link to="/mypage">
+            <span v-show="isLoggedIn">My Page</span>
+        </router-link>
+        <a href="#">
+            <span>hmmm</span>
+        </a>
+    </Bubble>
 </template>
 
 <script>
-export default {
+import { Bubble } from 'vue-burger-menu'
+import { mapGetters } from 'vuex';
 
+export default {
+    name: "menu",
+    components: {
+        Bubble
+    },
+    computed: {
+    ...mapGetters(['isLoggedIn'])
+    }
 }
 </script>
 
