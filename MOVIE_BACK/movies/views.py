@@ -165,8 +165,6 @@ def movie_detail(request, movie_id):
             update_user_keyword(request, user.id)
             return Response(status=200, data={'message': '평점 작성 성공'})
 
-
-
     serializer = MovieSerializer(movie)
     return Response(serializer.data)
 
@@ -196,6 +194,9 @@ def rating_detail(request, movie_id, rating_id):
 def add_wishlist(request, movie_id):
     user = request.user
     movies = get_object_or_404(Movie, id=movie_id)
+
+    user = User.objects.get(id=user.id)
+    user.wishliest += movie_id
     # TODO user.wishlist [] 에 movie_id 추가만!
     user.save()
     return Response(status=200, message='보고 싶은 영화 추가 성공!')
