@@ -8,11 +8,12 @@ User = get_user_model()
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
-        fields = '__all__'
+        fields = ['id', 'movie', 'user', 'like', 'comment', 'keyword1', 'keyword2']
 
 
 class MovieSerializer(serializers.ModelSerializer):
     rating_set = RatingSerializer(many=True)
+
     class Meta:
         model = Movie
         fields = '__all__'
