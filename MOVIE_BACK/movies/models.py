@@ -6,6 +6,8 @@ from django.urls import reverse
 
 from django.conf import settings
 
+from django_random_queryset import RandomManager
+
 
 class Genre(models.Model):
     name = models.CharField(max_length=100)
@@ -22,6 +24,9 @@ class Keyword(models.Model):
 
 
 class Movie(models.Model):
+
+    objects = RandomManager()
+
     title = models.CharField(max_length=100, default='')
     titleEng = models.CharField(max_length=100, default='')
     director = models.CharField(max_length=50, default='')
@@ -79,4 +84,4 @@ class Rating(models.Model):
     keyword2 = models.ForeignKey(Keyword, null=True, on_delete=models.SET_NULL, related_name='rating_sub_keyword')
 
     def __str__(self):
-        return f'{self.id}: {self.comment}'
+        return f'{self.id} => {self.keyword1} || {self.keyword2} || {self.comment}'
