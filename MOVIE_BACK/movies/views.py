@@ -139,3 +139,6 @@ def add_wishlist(request, movie_id):
 
 def add_watched_movie(request, movie_id):
     pass
+
+def search_movies(request):
+    pass
