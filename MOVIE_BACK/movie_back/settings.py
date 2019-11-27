@@ -27,7 +27,7 @@ SECRET_KEY = '94$u15^*=b5lsa04r8tlofw@@34@trj=z^p(t31%ou-&g9#^hl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '430ec55b.ngrok.io']
+ALLOWED_HOSTS = ['127.0.0.1', '0c5da6cd.ngrok.io']
 
 # REST_framework 설정
 REST_FRAMEWORK = {
