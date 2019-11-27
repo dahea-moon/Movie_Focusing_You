@@ -9,11 +9,12 @@ from rest_framework.response import Response  # json 응답 생성기
 from rest_framework.decorators import api_view  # require_methods
 from django.shortcuts import render
 from django.core import serializers
-from django.db.models import Q
-from django_random_queryset import RandomManager
 
 from .models import Movie, Rating
 from .serializers import MovieSerializer, RatingSerializer
+
+from django.db.models import Q
+from django.db.models import Count
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -31,7 +32,9 @@ def update_movie_keyword(request):
     pass
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def movie_recommendations(request):
+    
     user = request.user
     genre1 = user.genre1
     genre2 = user.genre2
@@ -43,14 +46,40 @@ def movie_recommendations(request):
     4. user main_genre, sub_genre 둘 중 하나만 만족
 
     """
+    # TODO user keyword 계산해서 가져오기!
     query = Q(genre1=genre1) | Q(genre2=genre1)
     query.add(Q(genre1=genre2) | Q(genre2=genre2), Q.OR)
+    
+    fieldname = 'keyword1'
+    keyword1_list = Rating.objects.values('keyword1').annotate(key_cnt=Count('keyword1')).order_by('-key_cnt')
+    keyword2_list = Rating.objects.values('keyword2').annotate(key_cnt=Count('keyword1')).order_by('-key_cnt')
 
-    if user.keyword1 != null:
-        keyword1 = user.keyword1
-        keyword2 = user.keyword2
-        query.add(Q(keyword1=keyword1) | Q(keyword2=keyword1), Q.OR)
-        query.add(Q(keyword1=keyword2) | Q(keyword2=keyword2), Q.OR)
+    print('/////////////////////////////////////////////////////////')
+    print(keyword1_list)
+    print(keyword2_list)
+    print('/////////////////////////////////////////////////////////')
+    
+    key_cnts = {}
+    for keyword in keyword1_list:
+        if keyword.keyword1 in key_cnts.keys:
+            key_cnts.keys += keyword.key_cnt
+        else:
+            key_cnts[keyword.keyword1] = keyword.key_cnt
+    print(key_cnts)
+
+
+    
+
+    # keyword1_list = Rating.objects.values('keyword1').annotate(key_cnt=Count('keyword1')).order_by('key_cnt')[0]
+    # if keyword1_list:
+    #     keyword1 = keyword1_list[0]
+    #     print(keyword1, '++++')
+
+    # query.add(Q(keyword1=keyword1) | Q(keyword2=keyword1), Q.OR)
+
+    # keyword2 = Rating.objects.values('keyword2').annotate(key_cnt=Count('keyword2')).order_by('key_cnt')[0]
+
+    # query.add(Q(keyword1=keyword2) | Q(keyword2=keyword2), Q.OR)
     
     movies_set = Movie.objects.filter(query)
     

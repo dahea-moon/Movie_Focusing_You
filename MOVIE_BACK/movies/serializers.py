@@ -4,6 +4,7 @@ from .models import Rating, Movie
 
 User = get_user_model()
 
+
 class RatingSerializer(serializers.ModelSerializer):
 
     class Meta:

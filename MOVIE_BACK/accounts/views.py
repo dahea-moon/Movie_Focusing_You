@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 
 from rest_framework.response import Response  # JSON 응답 생성기
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny  # 회원가입은, 인증을 볼 필요가 없음.
+from rest_framework.permissions import AllowAny, IsAuthenticated  # 회원가입은, 인증을 볼 필요가 없음.
 
 from .serializers import UserCreationSerializer, UserSerializer
 
@@ -22,6 +22,7 @@ def signup(request):
 
 
 @api_view(['GET', 'PATCH', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def user_detail(request):
     user = request.user
     if request.method == 'GET':
