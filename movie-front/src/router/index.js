@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Signup from '../views/Signup.vue'
 import Main from '../views/Main.vue'
 import Mypage from '../views/Mypage.vue'
+import Detail from '../views/Detail.vue'
 
 Vue.use(VueRouter) // 우리 같이 일해보자. 악수.
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/mypage',
     name: 'mypage',
     component: Mypage
+  },
+  {
+    path: '/detail',
+    name: 'detail',
+    component: Detail
   },
 ]
 

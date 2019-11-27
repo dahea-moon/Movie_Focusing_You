@@ -1,6 +1,5 @@
 <template>
     <div>
-        home
         <MovieList></MovieList>
     </div>
 </template>

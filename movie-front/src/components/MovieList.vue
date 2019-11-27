@@ -1,14 +1,17 @@
 <template>
     <div>
-        <ul v-for="(movie) in getMovielist" :key="movie.pk">
-            <sweet-modal ref="modal" :title="movie.title">
+        <div v-for="(movie, idx) in getMovielist" :key="movie.id">
+            <SweetModal :ref="modal" :title="movie.title">
+                {{ idx }}
                 {{ movie.title }}
-                <sweet-button @click="">상세보기</sweet-button>
+                <!-- <sweet-button @click="">상세보기</sweet-button> -->
+                <!-- 상세보기를 누르면 영화의 아이디를 state의 movieid로 mutate 한다 그걸 detail 페이지에서 받게한다 -->
                 <sweet-button @click="close">취소</sweet-button>
-            </sweet-modal>
+            </SweetModal>
             <img :src="movie.poster" :alt="movie.title">
-            <span @click="open"> {{ movie.title }} </span>
-        </ul>
+            {{movie.id}}
+            <span @click="open(idx)"> {{ movie.title }} </span>
+        </div>
     </div>
 </template>
 
@@ -22,11 +25,15 @@ export default {
         SweetModal,
     },
     methods: {
-        open: function () {
-            return this.$ref.modal.open()
-        }.bind(this),
-        close: function () {
-            return this.$ref.modal.close()
+        open (idx) {
+            // console.log(this.$refs[`modal-${pk}`][0])
+            // console.log(pk)
+            // return this.$refs[`modal-${pk}`].open()
+            console.log(this.$refs.modal)
+            return this.$refs.modal[idx].open()
+        },
+        close () {
+            return this.$refs.modal.close()
         }
     },
     computed: {
