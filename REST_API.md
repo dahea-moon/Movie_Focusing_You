@@ -24,7 +24,10 @@ urlpatterns = [
 ## Movies
 
 -   Movie List
-    -   GET ``api/v1/movies/``
+    -   전체 리스트
+        -   GET ``api/v1/movies/``
+    -   추천
+        -   POST ``api/v1/movies/recommendations/``
 
 -   Movie Detail
     -   ``api/v1/movies/<int:movie_id>/``
