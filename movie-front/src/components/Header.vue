@@ -27,10 +27,10 @@ export default {
   },
   methods: {
     ...mapActions(['logout']),
-    open: function () {
+    open () {
       return this.$refs.modal.open()
     },
-    close: function () {
+    close () {
       return this.$refs.modal.close()
     }
   },

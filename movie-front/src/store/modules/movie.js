@@ -25,6 +25,9 @@ const mutations = {
         state.movie = moviedetail
     },
     pushMovieError: (state, error) => state.movieerrors.push(error),
+    setMovieid: (state, movieid) => {
+        state.movieid = movieid
+    }
 };
 
 const actions = {
