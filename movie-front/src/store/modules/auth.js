@@ -39,9 +39,13 @@ const mutations = {
     pushError: (state, error) => state.errors.push(error),
     clearErrors: state => state.errors = [],
     setUserdetail: (state, detail) => state.userdetail = detail,
-    setUsername: (state, username) => state.username = username,
+    setUsername: (state, username) => {
+        state.username = username
+        sessionStorage.setItem('username', username);
+    },
     setUserpk: (state, userpk) => {
-        state.username = userpk
+        state.userpk = userpk
+        sessionStorage.setItem('userpk', userpk);
     }
 };
 

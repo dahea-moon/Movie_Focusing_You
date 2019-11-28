@@ -12,8 +12,8 @@
         <a @click.prevent="logout" href="">LogOut</a>
       </span>
 
-      <span>
-        <a href="">{{ getUserpk }}</a>
+      <span v-show="isLoggedIn">
+        <a href="">{{ getUsername }}</a>
       </span>
     </div>
 </template>
@@ -39,7 +39,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isLoggedIn', 'getUserpk'])
+    ...mapGetters(['isLoggedIn', 'getUsername'])
   }
 }
 </script>

@@ -1,44 +1,39 @@
 <template>
     <div>
-        <div v-for="(movie, idx) in getMovielist" :key="movie.id">
-            <SweetModal :ref="modal" :title="movie.title">
-                {{ idx }}
-                {{ movie.title }}
-                <!-- <sweet-button @click="">상세보기</sweet-button> -->
-                <!-- 상세보기를 누르면 영화의 아이디를 state의 movieid로 mutate 한다 그걸 detail 페이지에서 받게한다 -->
-                <sweet-button @click="close">취소</sweet-button>
-            </SweetModal>
+        <div>
+            <b-modal id="modal-center" centered :title="getMovie.title">
+                <p class="my-4">{{ getMovie }}</p>
+                <img :src="getMovie.poster" :alt="getMovie.title">
+                <template v-slot:modal-footer="{ ok, cancel }">
+                    <router-link to="/detail">
+                        <b-button size="sm" variant="success">
+                        상세보기
+                        </b-button>
+                    </router-link>
+                    <b-button size="sm" variant="danger" @click="cancel()">
+                        닫기
+                    </b-button>
+                    <!-- Button with custom close trigger value -->
+                </template>
+            </b-modal>
+        </div>
+        <div v-for="movie in getMovielist" :key="movie.id">
             <img :src="movie.poster" :alt="movie.title">
-            {{movie.id}}
-            <span @click="open(idx)"> {{ movie.title }} </span>
+            <b-button v-b-modal.modal-center @click="pushtoMovie(movie)">{{ movie.title }}</b-button>
         </div>
     </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { SweetModal } from 'sweet-modal-vue'
 
 export default {
     name: 'movielist',
-    components: {
-        SweetModal,
-    },
     methods: {
-        ...mapActions(['recommendation']),
-        open (idx) {
-            // console.log(this.$refs[`modal-${pk}`][0])
-            // console.log(pk)
-            // return this.$refs[`modal-${pk}`].open()
-            console.log(this.$refs.modal)
-            return this.$refs.modal[idx].open()
-        },
-        close () {
-            return this.$refs.modal.close()
-        }
+        ...mapActions(['recommendation', 'pushtoMovie']),
     },
     computed: {
-        ...mapGetters(['getMovielist'])
+        ...mapGetters(['getMovielist', 'getMovie'])
     },
     created () {
         this.recommendation()

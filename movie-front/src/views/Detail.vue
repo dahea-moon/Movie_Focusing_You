@@ -4,10 +4,10 @@
         {{ getMovie.rating_set }}
         <sweet-modal ref="modal">
             <sweet-modal-tab title="좋아요" id="tab1">
-                <!-- <button v-show="rating.likes" @click.prevent="likesChange"><i class="heart outline icon"></i></button>
-                <button v-show="!rating.likes" @click.prevent="likesChange"><i class="heart icon"></i></button> -->
-                <button v-show="rating.likes" @click="likesChange">좋아요</button>
-                <button v-show="!rating.likes" @click="likesChange">싫어요</button>
+                <button v-show="!rating.likes" @click.prevent="likesChange"><i class="heart outline icon"></i></button>
+                <button v-show="rating.likes" @click.prevent="likesChange"><i class="heart icon"></i></button>
+                <!-- <button v-show="rating.likes" @click="likesChange">좋아요</button>
+                <button v-show="!rating.likes" @click="likesChange">싫어요</button> -->
             </sweet-modal-tab>
             <sweet-modal-tab title="키워드" id="tab2">
                 <div>
@@ -70,7 +70,6 @@
                 <button v-show="!isValued" type="submit" @click.prevent="sendRating(rating)">등록</button>
                 <button v-show="isValued" type="submit" @click.prevent="updateRating(rating)">수정</button>                
             </sweet-modal-tab>
-            <!-- icons is an object containing SVG strings -->
         </sweet-modal>
         <span v-show="!isValued" @click="open">평가하기</span>
         <span v-show="isValued" @click="open">수정하기</span>
@@ -94,7 +93,7 @@ export default {
             togglewish: false,
             rating: {
                 movieid: 0,
-                ratingid: 0,
+                ratingid: 4,
                 likes: false,
                 comment: '',
                 keyword1: 0,
@@ -140,8 +139,9 @@ export default {
         }
     },
     created () {
-        this.getmoviedetail(this.getMovieid);
-        this.rating.movieid = this.getMovieid
+        const movieid = sessionStorage.getItem('movie')
+        this.getmoviedetail(movieid);
+        this.rating.movieid = movieid
         this.getRatingid();
     }
 }
