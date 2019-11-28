@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny  # 회원가입은, 인증을 볼 필요가 없음.
+from rest_framework.permissions import AllowAny, IsAuthenticated  # 회원가입은, 인증을 볼 필요가 없음.
 
 
 from rest_framework.response import Response  # json 응답 생성기
@@ -10,9 +10,10 @@ from rest_framework.decorators import api_view  # require_methods
 from django.shortcuts import render
 from django.core import serializers
 
+from accounts.models import User
 from .models import Movie, Rating, Keyword
 from accounts.serializers import UserSerializer
-from .serializers import MovieSerializer, RatingSerializer
+from .serializers import MovieSerializer, RatingSerializer, RatingCreationSerializer
 
 from django.db.models import Q
 from django.db.models import Count
@@ -93,9 +94,8 @@ def update_movie_keyword(request, movie_id):
 
 
 @api_view(['POST'])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 def movie_recommendations(request):
-    
     user = request.user
     genre1 = user.genre1
     genre2 = user.genre2
@@ -103,6 +103,7 @@ def movie_recommendations(request):
     # update_user_keyword(request)
     keyword1 = user.keyword1
     keyword2 = user.keyword2
+    # print(keyword1, keyword2)
 
     query = Q(keyword1=keyword1) & Q(keyword2=keyword2)
 
@@ -144,35 +145,33 @@ def movie_recommendations(request):
     return Response(serializer.data)
 
 
-# TODO : KEYWORD column 추가, watchedlist 추가
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def movie_detail(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
     
     # Rating 생성
     if request.method == 'POST':
         user = request.user
-
-        # TODO 아래 코드 정리
-        temp = request.data
-        temp['user'] = user.pk
-        temp['movie'] = movie.id
-        rating = RatingSerializer(data=temp)
-        # rating = RatingSerializer(data=request.data, context={'movie':movie.id, 'user':user.id})
-        # rating = RatingSerializer(data=request.data)
+        rating = RatingCreationSerializer(data=request.data)
         if rating.is_valid(raise_exception=True):
+            rating.save(movie=movie, user=user)
             update_movie_keyword(request, movie.id)
-            update_user_keyword(request, user.id)
+            update_user_keyword(request)
+            user.watchedlist.add(movie_id)
+            user.wishlist.remove(movie_id)
             return Response(status=200, data={'message': '평점 작성 성공'})
-
-    serializer = MovieSerializer(movie)
-    return Response(serializer.data)
+    elif request.method == 'GET':
+        serializer = MovieSerializer(movie)
+        return Response(serializer.data)
 
 
 @api_view(['PATCH', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def rating_detail(request, movie_id, rating_id):
     rating = get_object_or_404(Rating, id=rating_id)
-    if rating.user == request.user:
+    user = request.user
+    if rating.user == user:
         if request.method == 'PATCH':
             serializer = RatingSerializer(
                 instance=rating,
@@ -181,28 +180,26 @@ def rating_detail(request, movie_id, rating_id):
             )
             if serializer.is_valid():
                 serializer.save()
+                update_user_keyword(request)
                 update_movie_keyword(request, movie_id)
                 return Response(serializer.data)
             return Response(status=400, data=serializer.errors)
         elif request.method == 'DELETE':
             rating.delete()
+            user.wathedlist.remove(movie_id)
+            update_user_keyword(request)
+            update_movie_keyword(request, movie_id)
             return Response(status=204)
     return Response(status=403)
 
 
-# TODO: userpage로 이동
-def add_wishlist(request, movie_id):
+@api_view(['POST', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def wishlist(request, movie_id):
     user = request.user
-    movies = get_object_or_404(Movie, id=movie_id)
-
-    user = User.objects.get(id=user.id)
-    user.wishliest += movie_id
-    # TODO user.wishlist [] 에 movie_id 추가만!
-    user.save()
-    return Response(status=200, message='보고 싶은 영화 추가 성공!')
-
-
-def add_watched_movie(request, movie_id):
-    user = request.user
-    movie = get_object_or_404(Movie, id=movie_id)
-
+    if request.method == 'POST':
+        user.wishlist.add(movie_id)
+        return Response(status=200, data={'message':'보고 싶은 영화 추가 성공!'})
+    elif request.method == 'DELETE':
+        user.wishlist.remove(movie_id)
+        return Response(status=200, data={'message':'보고 싶은 영화 삭제!'})
