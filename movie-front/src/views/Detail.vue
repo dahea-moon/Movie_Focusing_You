@@ -1,8 +1,8 @@
 <template>
-    <div>
-        <img :src="getMovie.poster" :alt="getMovie.title">
-        {{ getMovie.title }}
-        {{ getMovie.titleEng }}
+    <div class="ui main text container">
+        <h1 class="ui header">{{ getMovie.title }}</h1>
+        <p>{{ getMovie.titleEng }}</p>
+        <img :src="getMovie.poster" :alt="getMovie.title" class="ui medium left floated image transition visible">
         {{ getMovie.director }}
         {{ getMovie.actors }}
         {{ getMovie.nation }}

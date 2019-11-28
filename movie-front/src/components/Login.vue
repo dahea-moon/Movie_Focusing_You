@@ -1,16 +1,20 @@
 <template>
-  <div>
-    <div>
-      <label for="name">User</label>
-      <input name="User" v-model="credentials.username">
+  <form class="ui large form">
+    <div class="field">
+      <div class="ui fluid left icon input">
+        <i class="user icon"></i>
+        <input name="User" v-model="credentials.username" placeholder="Username">
+      </div>
     </div>
 
-    <div>
-      <label for ="password">Password</label>
-      <input name="password" type="password" v-model="credentials.password">
+    <div class="field">
+      <div class="ui fluid left icon input">
+        <i class="lock icon"></i>
+        <input name="password" type="password" v-model="credentials.password" placeholder="Password">
+      </div>
     </div>
-    <button type="submit" @click="$router.push('/home')" @click.prevent="login(credentials)">로그인</button>
-  </div>
+    <div class="ui fluid large black submit button" @click="$router.push('/home')" @click.prevent="login(credentials)">로그인</div>
+  </form>
 </template>
 
 <script>

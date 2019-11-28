@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Header></Header>
+    <Usernav></Usernav>
     <Menu></Menu>
     <router-view/>
   </div>
@@ -8,12 +8,12 @@
 
 <script>
 import Menu from '@/components/Menu.vue'
-import Header from '@/components/Header.vue'
+import Usernav from '@/components/Usernav.vue'
 
 export default {
   name: 'app',
   components: {
-    Header,
+    Usernav,
     Menu
   },
   created () {
