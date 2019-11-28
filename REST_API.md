@@ -33,9 +33,15 @@ urlpatterns = [
 
     -   ``api/v1/movies/<int:movie_id>/``
         -   GET : 영화 상세 정보 보기
-        -   POST : Rating 생성
         -   PATCH : 영화 정보 수정
         -   DELETE : 영화 삭제 
+
+-   Rating
+
+    -   작성
+        -   POST ``api/v1/movies/<int:movie_id>/``
+        -   PATCH ``api/v1/movies/<int:movie_id>/<int:rating_id>/``
+        -   DELETE ``api/v1/movies/<int:movie_id>/<int:rating_id>/``
 
 -   Wishlist 추가
 
