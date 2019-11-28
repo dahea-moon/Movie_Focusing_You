@@ -17,7 +17,7 @@ export default {
     Menu
   },
   created () {
-    this.$store.dispatch('initalLogin')
+    this.$store.dispatch('initialLogin')
   }
 }
 </script>

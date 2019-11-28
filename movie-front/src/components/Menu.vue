@@ -6,9 +6,9 @@
         <router-link to="/mypage">
             <span v-show="isLoggedIn">My Page</span>
         </router-link>
-        <a href="#">
-            <span>hmmm</span>
-        </a>
+        <router-link to="/all">
+            <span>전체 영화보기</span>
+        </router-link>
     </Bubble>
 </template>
 

@@ -1,5 +1,6 @@
 const HOST = process.env.VUE_APP_SERVER_HOST;
 const axios = require('axios');
+const jwtDecode = require('jwt-decode');
 import router from '../../router';
 // auth.js  인증관련 모든 State 를 작성.
 // State 에 접근/변경 하는 모든 로직은 여기로.
@@ -9,6 +10,8 @@ const state = {
     errors: [],
     loading: false,
     userdetail: {},
+    username: '',
+    userpk: 6
 };
 
 // Vuex 에서는 Arrow Function
@@ -22,7 +25,9 @@ const getters = {
     },
     getErrors: state => state.errors,
     isLoading: state => state.loading,
-    getUserDetail: state => state.userdetail
+    getUserDetail: state => state.userdetail,
+    getUsername: state => state.username,
+    getUserpk: state => state.userpk
 };
 
 const mutations = {
@@ -33,7 +38,11 @@ const mutations = {
     },
     pushError: (state, error) => state.errors.push(error),
     clearErrors: state => state.errors = [],
-    setUserdetail: (state, detail) => state.userdetail = detail
+    setUserdetail: (state, detail) => state.userdetail = detail,
+    setUsername: (state, username) => state.username = username,
+    setUserpk: (state, userpk) => {
+        state.username = userpk
+    }
 };
 
 const actions = {
@@ -71,8 +80,11 @@ const actions = {
             if (!getters.getErrors.length) {
                 axios.post(HOST + 'api-token-auth/', credentials)
                     .then(token => {
+                        let result = jwtDecode(token.data.token)
                         commit('setToken', token.data.token);
-                        commit('setLoading', false)
+                        commit('setLoading', false);
+                        commit('setUsername', result.username);
+                        commit('setUserpk', result.user_id);
                         router.push('/mypage');
                     })
                     .catch(err => {
