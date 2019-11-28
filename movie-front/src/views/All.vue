@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="ui container">
         <div>
             <b-modal id="modal-center" centered :title="getMovie.title">
                 <p class="my-4">{{ getMovie }}</p>
@@ -16,7 +16,7 @@
                 </template>
             </b-modal>
         </div>
-        <div class="ui link cards">
+        <div class="ui link four cards">
             <div class="card" v-for="movie in getMovielist" :key="movie.id">
                 <div class="image">
                     <img :src="movie.poster" :alt="movie.title">

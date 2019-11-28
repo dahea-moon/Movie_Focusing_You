@@ -1,11 +1,11 @@
 <template>
     <div id="nav">
       <span v-show="isLoggedIn">
-        <a @click.prevent="logout" href="">LogOut</a>
+        <a @click.prevent="logout">LogOut</a>
       </span>
 
       <span v-show="isLoggedIn">
-        <a href="">{{ getUsername }}</a>
+        <a>{{ getUsername }}</a>
       </span>
     </div>
 </template>
@@ -14,7 +14,7 @@
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  name: "header",
+  name: "usernav",
   methods: {
     ...mapActions(['logout']),
     open () {

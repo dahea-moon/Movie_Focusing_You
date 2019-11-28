@@ -1,12 +1,21 @@
 <template>
-  <div>
-    <router-link to="/signup">Sign Up</router-link> |
-      
-    <sweet-modal ref="modal" title="로그인">
+  <div class="ui text container">
+    <h1 class="ui header">
+      Movie Focusing You
+    </h1>
+    <h2>We will recommend movies for you</h2>
+    <br>
+    <div class="ui huge button black">
+      <router-link to="/signup">Sign Up</router-link>
+    </div>
+    <br>
+    <hr/>
+    <div class="ui huge button black">
+      <span v-show="!isLoggedIn" @click="open">Login</span>
+    </div>
+    <sweet-modal ref="modal" title="Welcome!">
       <Login/>
-      <sweet-button @click="close">취소</sweet-button>
     </sweet-modal>
-    <span v-show="!isLoggedIn" @click="open">Login</span>
   </div>
 </template>
 
