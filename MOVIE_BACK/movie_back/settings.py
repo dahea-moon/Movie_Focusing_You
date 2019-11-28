@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import datetime
-
+from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,10 +22,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '94$u15^*=b5lsa04r8tlofw@@34@trj=z^p(t31%ou-&g9#^hl'
-
+SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = ['127.0.0.1', '62eecdad.ngrok.io']
 
@@ -161,3 +160,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'accounts.User'
+
+# Django - Heroku 설정
+import djago_heroku
+django_heroku.settings(locals())

@@ -109,7 +109,8 @@ def movie_recommendations(request):
     query = Q(keyword1=keyword1) & Q(keyword2=keyword2)
 
     movies_set = Movie.objects.filter(query)
-
+    
+    embed()
     # for movie in movies_set:
     #     if user in movie.watched_users.all():
     #         movies_set.exclude(id=watched.id)
