@@ -84,4 +84,4 @@ class Rating(models.Model):
     keyword2 = models.ForeignKey(Keyword, null=True, on_delete=models.SET_NULL, related_name='rating_sub_keyword')
 
     def __str__(self):
-        return f'{self.id} => {self.keyword1} || {self.keyword2} || {self.comment}'
+        return f'{self.id} => by: {self.user.id} {self.keyword1} || {self.keyword2} || {self.comment}'

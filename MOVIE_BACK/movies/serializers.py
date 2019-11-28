@@ -5,6 +5,12 @@ from .models import Rating, Movie
 User = get_user_model()
 
 
+class RatingCreationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        exclude = ['user', 'movie']
+
+
 class RatingSerializer(serializers.ModelSerializer):
 
     class Meta:
