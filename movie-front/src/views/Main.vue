@@ -13,7 +13,7 @@
     <div class="ui huge button black">
       <span v-show="!isLoggedIn" @click="open">Login</span>
     </div>
-    <sweet-modal ref="modal" title="Welcome!">
+    <sweet-modal ref="modal" title="Welcome!" style="vertical-align: middle;">
       <Login/>
     </sweet-modal>
   </div>

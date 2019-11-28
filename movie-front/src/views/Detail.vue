@@ -3,21 +3,40 @@
         <h1 class="ui header">{{ getMovie.title }}</h1>
         <p>{{ getMovie.titleEng }}</p>
         <img :src="getMovie.poster" :alt="getMovie.title" class="ui medium left floated image transition visible">
-        {{ getMovie.director }}
-        {{ getMovie.actors }}
-        {{ getMovie.nation }}
-        {{ getMovie.plot }}
-        {{ getMovie.runtime }}
-        {{ getMovie.ratingGrade }}
-        {{ getMovie.descriptions }}
-        {{ getMovie.releaseDt }}
+        <dl class="row">
+            <dt class="col-sm-3">Director</dt>
+            <dd class="col-sm-9">{{ getMovie.director }}</dd>
+
+            <dt class="col-sm-3">Actors</dt>
+            <dd class="col-sm-9">{{ getMovie.actors }}</dd>
+            
+            <dt class="col-sm-3">Plot</dt>
+            <dd class="col-sm-9">{{ getMovie.plot }}</dd>
+
+            <dt class="col-sm-3">Descriptions</dt>
+            <dd class="col-sm-9">{{ getMovie.descriptions }}</dd>
+
+            <dt class="col-sm-3">Nation</dt>
+            <dd class="col-sm-9">{{ getMovie.nation }}</dd>
+
+            <dt class="col-sm-3">Runtime</dt>
+            <dd class="col-sm-9">{{ getMovie.runtime }}</dd>
+
+            <dt class="col-sm-3">Rating Grade</dt>
+            <dd class="col-sm-9">{{ getMovie.ratingGrade }}</dd>
+
+            <dt class="col-sm-3">Release Date</dt>
+            <dd class="col-sm-9">{{ getMovie.releaseDt }}</dd>
+        </dl>
+
+        <!-- TODO 이미지 띄워주세요 -->
         {{ getMovie.stills }}
-        
+
         <ul v-for="rate in getMovie.rating_set" :key="rate.id">
             <a v-show="!rating.like"><i class="heart outline icon"></i></a>
             <a v-show="rating.like"><i class="heart icon"></i></a>
             {{ rate.comment }}
-            <button v-show="getUserpk==rate.user" type="submit" @click="deleterating(rating)">삭제하기</button>
+            <button v-show="getUserpk==rate.user" type="submit" @click="deleterating(rating)">삭제</button>
         </ul>
         <sweet-modal ref="modal">
             <sweet-modal-tab title="좋아요" id="tab1">
@@ -88,10 +107,12 @@
                 <button v-show="isValued" type="submit" @click.prevent="updateRating(rating)">수정</button>                
             </sweet-modal-tab>
         </sweet-modal>
-        <span v-show="!isValued" @click="open">평가하기</span>
-        <span v-show="isValued" @click="open">수정하기</span>
-        <button v-show="!togglewish" type="submit" @click.prevent="addwishlist(rating.movieid)" @click="toggleWish">Wish</button>
-        <button v-show="togglewish" type="submit" @click.prevent="deletewish(rating.movieid)" @click="toggleWish">취소</button>
+        <div class="ui basic buttons">
+            <span class="ui button" v-show="!isValued" @click="open">평가하기</span>
+            <span class="ui button" v-show="isValued" @click="open">수정하기</span>
+            <button class="ui button" v-show="!togglewish" type="submit" @click.prevent="addwishlist(rating.movieid)" @click="toggleWish">Wish</button>
+            <button class="ui button" v-show="togglewish" type="submit" @click.prevent="deletewish(rating.movieid)" @click="toggleWish">취소</button>
+        </div>
     </div>
 </template>
 
