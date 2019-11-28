@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { SweetModal } from 'sweet-modal-vue'
 
 export default {
@@ -25,6 +25,7 @@ export default {
         SweetModal,
     },
     methods: {
+        ...mapActions(['recommendation']),
         open (idx) {
             // console.log(this.$refs[`modal-${pk}`][0])
             // console.log(pk)
@@ -40,7 +41,7 @@ export default {
         ...mapGetters(['getMovielist'])
     },
     created () {
-        this.$store.dispatch('recommendation')
+        this.recommendation()
     }
 }
 </script>
