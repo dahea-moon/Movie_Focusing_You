@@ -17,21 +17,30 @@ urlpatterns = [
     -   POST : ``api/v1/accounts/signup``
 -   User Detail
     -   ``api/v1/accounts/mypage/``
-    -   R : GET
-    -   U: PATCH
-    -   D : DELETE
+    -   GET : 유저 정보 조회
+    -   PATCH : 유저 정보 수정
+    -   DELETE : 유저 삭제
 
 ## Movies
 
 -   Movie List
-    -   전체 리스트
+    -   전체 영화 리스트 보기
         -   GET ``api/v1/movies/``
-    -   추천
+    -   유저 맞춤 추천 영화 리스트 보기
         -   POST ``api/v1/movies/recommendations/``
 
 -   Movie Detail
+
     -   ``api/v1/movies/<int:movie_id>/``
-    -   R : GET
-    -   C : POST => Rating 생성
-    -   U : PATCH
-    -   D : DELETE
+        -   GET : 영화 상세 정보 보기
+        -   POST : Rating 생성
+        -   PATCH : 영화 정보 수정
+        -   DELETE : 영화 삭제 
+
+-   Wishlist 추가
+
+    -   ``api/v1/movies/<int:movie_id>/wishlist/``
+        -   POST : 위시리스트 추가
+        -   DELETE : 위시리스트 제거
+
+    
