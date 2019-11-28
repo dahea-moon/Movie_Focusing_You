@@ -53,6 +53,9 @@ const actions = {
     logout: ({ commit }) => {
         commit('setToken', null);
         sessionStorage.removeItem('jwt');
+        sessionStorage.removeItem('username');
+        sessionStorage.removeItem('userpk');
+        sessionStorage.removeItem('movie');
         router.push('/');
     },
     
@@ -103,7 +106,7 @@ const actions = {
                         }
                         commit('setLoading', false);
                     })
-                }
+            }
         }
     },
     signup: ({ commit, getters, dispatch }, userInfo) => {

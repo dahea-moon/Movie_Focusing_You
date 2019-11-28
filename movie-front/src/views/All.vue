@@ -16,9 +16,21 @@
                 </template>
             </b-modal>
         </div>
-        <div v-for="movie in getMovielist" :key="movie.id">
-            <img :src="movie.poster" :alt="movie.title">
-            <b-button v-b-modal.modal-center @click="pushtoMovie(movie)">{{ movie.title }}</b-button>
+        <div class="ui link cards">
+            <div class="card" v-for="movie in getMovielist" :key="movie.id">
+                <div class="image">
+                    <img :src="movie.poster" :alt="movie.title">
+                </div>
+                <div class="content">
+                    <div class="header">{{ movie.title }}</div>
+                    <div class="meta">
+                        <a>Friends</a>
+                    </div>
+                    <div class="description">
+                        <b-button v-b-modal.modal-center @click="pushtoMovie(movie)">{{ movie.title }}</b-button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
