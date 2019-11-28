@@ -85,9 +85,10 @@ def update_movie_keyword(request, movie_id):
 
     keyword1 = sorted_key_cnts_keylist[0]
     keyword2 = sorted_key_cnts_keylist[1]
+    keyword3 = sorted_key_cnts_keylist[2]
     
     # User.keyword1 => update
-    serializer = MovieSerializer(instance=movie, data={'keyword1':keyword1, 'keyword2':keyword2}, partial=True)
+    serializer = MovieSerializer(instance=movie, data={'keyword1':keyword1, 'keyword2':keyword2, 'keyword3':keyword3}, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(status=200, data={'message': '평점 작성 성공'})
@@ -108,6 +109,11 @@ def movie_recommendations(request):
     query = Q(keyword1=keyword1) & Q(keyword2=keyword2)
 
     movies_set = Movie.objects.filter(query)
+
+    # for movie in movies_set:
+    #     if user in movie.watched_users.all():
+    #         movies_set.exclude(id=watched.id)
+
     if movies_set.count() > 5:
         movies_set = movies_set.random(5)
 
@@ -169,6 +175,7 @@ def movie_detail(request, movie_id):
 @api_view(['PATCH', 'DELETE'])
 @permission_classes([IsAuthenticated])
 def rating_detail(request, movie_id, rating_id):
+    # embed()
     rating = get_object_or_404(Rating, id=rating_id)
     user = request.user
     if rating.user == user:
@@ -186,7 +193,7 @@ def rating_detail(request, movie_id, rating_id):
             return Response(status=400, data=serializer.errors)
         elif request.method == 'DELETE':
             rating.delete()
-            user.wathedlist.remove(movie_id)
+            user.watchedlist.remove(movie_id)
             update_user_keyword(request)
             update_movie_keyword(request, movie_id)
             return Response(status=204)
@@ -203,3 +210,6 @@ def wishlist(request, movie_id):
     elif request.method == 'DELETE':
         user.wishlist.remove(movie_id)
         return Response(status=200, data={'message':'보고 싶은 영화 삭제!'})
+
+
+# def search(request):
