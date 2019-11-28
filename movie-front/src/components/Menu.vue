@@ -1,5 +1,8 @@
 <template>
     <Bubble id="page-wrap">
+        <router-link to="/">
+            <span v-show="!isLoggedIn">Main</span>
+        </router-link>
         <router-link to="/signup">
             <span v-show="!isLoggedIn">Sign Up</span>
         </router-link>

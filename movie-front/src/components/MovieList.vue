@@ -1,5 +1,5 @@
 <template>
-    <div class="ui container">
+    <div>
         <div>
             <b-modal id="modal-center" centered :title="getMovie.title">
                 <b-img center :src="getMovie.poster" :alt="getMovie.title"></b-img>

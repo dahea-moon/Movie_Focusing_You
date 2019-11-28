@@ -10,8 +10,8 @@ const state = {
     errors: [],
     loading: false,
     userdetail: {},
-    username: '',
-    userpk: 6
+    username: sessionStorage.getItem('username'),
+    userpk: sessionStorage.getItem('userpk')
 };
 
 // Vuex 에서는 Arrow Function

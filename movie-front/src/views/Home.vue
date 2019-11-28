@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <div class="ui container">
+        <h2>Movies for You</h2>
         <MovieList></MovieList>
     </div>
 </template>

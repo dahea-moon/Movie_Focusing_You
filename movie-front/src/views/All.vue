@@ -1,13 +1,15 @@
 <template>
-    <div class="ui container">
+    <div>
         <div>
             <b-modal id="modal-center" centered :title="getMovie.title">
-                <p class="my-4">{{ getMovie }}</p>
-                <img :src="getMovie.poster" :alt="getMovie.title">
+                <b-img center :src="getMovie.poster" :alt="getMovie.title"></b-img>
+                <p class="my-4">감독: {{ getMovie.director }}</p>
+                <p class="my-4">배우: {{ getMovie.actors }}</p>
+                <p class="my-4">줄거리: {{ getMovie.plot }}</p>
                 <template v-slot:modal-footer="{ ok, cancel }">
                     <router-link to="/detail">
                         <b-button size="sm" variant="success">
-                        상세보기
+                            상세보기
                         </b-button>
                     </router-link>
                     <b-button size="sm" variant="danger" @click="cancel()">
@@ -22,12 +24,14 @@
                     <img :src="movie.poster" :alt="movie.title">
                 </div>
                 <div class="content">
-                    <div class="header">{{ movie.title }}</div>
+                    <div class="header">
+                        <b-button v-b-modal.modal-center @click="pushtoMovie(movie)">{{ movie.title }}</b-button>
+                    </div>
                     <div class="meta">
-                        <a>Friends</a>
+                        <a>{{ movie.titleEng }}</a>
                     </div>
                     <div class="description">
-                        <b-button v-b-modal.modal-center @click="pushtoMovie(movie)">{{ movie.title }}</b-button>
+                        <a>{{ movie.descriptions }}</a>
                     </div>
                 </div>
             </div>

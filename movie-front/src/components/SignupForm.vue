@@ -1,60 +1,64 @@
 <template>
-    <div>
+    <div class="ui container">
         <div v-if="getErrors.length">
             <p>아래의 오류를 해결해 주세요</p>
-            <ul>
-                <li v-for="(error, idx) in getErrors" :key="idx">
-                    {{ error }}
-                </li>
-            </ul>
+            <li v-for="(error, idx) in getErrors" :key="idx">
+                {{ error }}
+            </li>
         </div>
-        <div>
-            <label for="username">아이디</label>
-            <input type="text" v-model="userInfo.username" name="username" id="username" placeholder="아이디를 입력해주세요">
-            <label for="pwd">비밀번호</label>
-            <input type="password"  v-model="userInfo.password" name="pwd">
-            <label for="pwd2">비밀번호 재확인</label>
-            <input type="password"  v-model="userInfo.passwordconfirm" name="pwd2">
-            <label for="Email">이메일</label>
-            <input type="email" name="Email" id="Email" v-model="userInfo.email">
-            <label for="genre1">가장 선호하는 장르</label>
-            <select name="genre1" id="" v-model="userInfo.genre1">
-                <option value="1">드라마</option>
-                <option value="2">뮤직</option>
-                <option value="3">전기</option>
-                <option value="4">미스터리</option>
-                <option value="5">SF</option>
-                <option value="6">코미디</option>
-                <option value="7">액션</option>
-                <option value="8">범죄</option>
-                <option value="9">어드벤처</option>
-                <option value="10">가족</option>
-                <option value="11">멜로드라마</option>
-                <option value="12">공포</option>
-                <option value="13">스릴러</option>
-                <option value="14">전쟁</option>
-                <option value="15">판타지</option>                                                                    
-            </select>
-            <label for="genre2"></label>
-                <select name="genre2" id=""  v-model="userInfo.genre2">
-                <option value="1">드라마</option>
-                <option value="2">뮤직</option>
-                <option value="3">전기</option>
-                <option value="4">미스터리</option>
-                <option value="5">SF</option>
-                <option value="6">코미디</option>
-                <option value="7">액션</option>
-                <option value="8">범죄</option>
-                <option value="9">어드벤처</option>
-                <option value="10">가족</option>
-                <option value="11">멜로드라마</option>
-                <option value="12">공포</option>
-                <option value="13">스릴러</option>
-                <option value="14">전쟁</option>
-                <option value="15">판타지</option>                                                                    
-                </select>
-            <button type="submit" @click.prevent="signup(userInfo)">회원가입</button>      
-        </div>
+        <b-form @submit="signup(userInfo)">
+        <b-form-group
+            id="input-group-1"
+            label="Email address:"
+            label-for="input-1"
+            description="We'll never share your email with anyone else."
+        >
+            <b-form-input
+            id="input-1"
+            v-model="userInfo.email"
+            type="email"
+            required
+            placeholder="Enter email"
+            ></b-form-input>
+        </b-form-group>
+
+        <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
+            <b-form-input
+            id="input-2"
+            v-model="userInfo.username"
+            required
+            placeholder="Enter ID"
+            ></b-form-input>
+        </b-form-group>
+
+        <b-form-group id="input-group-4" label="Your Passwird:" label-for="input-4">
+            <b-form-input
+            id="input-4"
+            v-model="userInfo.password"
+            required
+            placeholder="Enter Password"
+            ></b-form-input>
+        </b-form-group>
+
+        <b-form-group id="input-group-3" label="First Favorite Genre:" label-for="input-3">
+            <b-form-select
+            id="input-3"
+            v-model="userInfo.genre1"
+            :options="genres"
+            required
+            ></b-form-select>
+        </b-form-group>
+
+        <b-form-group id="input-group-5" label="Second Favorite Genre:" label-for="input-5">
+            <b-form-select
+            id="input-5"
+            v-model="userInfo.genre2"
+            :options="genres"
+            required
+            ></b-form-select>
+        </b-form-group>
+        <b-button type="submit" variant="primary">Submit</b-button>
+        </b-form>
     </div>
 </template>
 
@@ -73,6 +77,7 @@ export default {
                 genre1: 0,
                 genre2: 0
             },
+            genres: ['드라마', '뮤직', '전기', '미스터리', 'SF', '코미디', '액션', '범죄', '어드벤처', '가족', '멜로드라마', '공포', '스릴러', '전쟁', '판타지']
         }
     },
     methods: {

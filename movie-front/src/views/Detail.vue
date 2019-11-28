@@ -1,49 +1,87 @@
 <template>
-    <div class="ui main text container">
+    <div class="ui main container">
         <h1 class="ui header">{{ getMovie.title }}</h1>
         <p>{{ getMovie.titleEng }}</p>
-        <img :src="getMovie.poster" :alt="getMovie.title" class="ui medium left floated image transition visible">
-        <dl class="row">
-            <dt class="col-sm-3">Director</dt>
-            <dd class="col-sm-9">{{ getMovie.director }}</dd>
-
-            <dt class="col-sm-3">Actors</dt>
-            <dd class="col-sm-9">{{ getMovie.actors }}</dd>
-            
-            <dt class="col-sm-3">Plot</dt>
-            <dd class="col-sm-9">{{ getMovie.plot }}</dd>
-
-            <dt class="col-sm-3">Descriptions</dt>
-            <dd class="col-sm-9">{{ getMovie.descriptions }}</dd>
-
-            <dt class="col-sm-3">Nation</dt>
-            <dd class="col-sm-9">{{ getMovie.nation }}</dd>
-
-            <dt class="col-sm-3">Runtime</dt>
-            <dd class="col-sm-9">{{ getMovie.runtime }}</dd>
-
-            <dt class="col-sm-3">Rating Grade</dt>
-            <dd class="col-sm-9">{{ getMovie.ratingGrade }}</dd>
-
-            <dt class="col-sm-3">Release Date</dt>
-            <dd class="col-sm-9">{{ getMovie.releaseDt }}</dd>
-        </dl>
-
-        <!-- TODO 이미지 띄워주세요 -->
-        {{ getMovie.stills }}
-
-        <ul v-for="rate in getMovie.rating_set" :key="rate.id">
-            <a v-show="!rating.like"><i class="heart outline icon"></i></a>
-            <a v-show="rating.like"><i class="heart icon"></i></a>
-            {{ rate.comment }}
-            <button v-show="getUserpk==rate.user" type="submit" @click="deleterating(rating)">삭제</button>
-        </ul>
+        <img :src="getMovie.poster" :alt="getMovie.title">
+    <h4 class="ui horizontal divider header">
+        <i class="bar chart icon"></i>
+        Movie Information
+    </h4>
+    <table class="ui definition table">
+    <tbody>
+        <tr>
+        <td class="two wide column">Director</td>
+        <td>{{ getMovie.director }}</td>
+        </tr>
+        <tr>
+        <td>Actors</td>
+        <td>{{ getMovie.actors }}</td>
+        </tr>
+        <tr>
+        <td>Plot</td>
+        <td>{{ getMovie.plot }}</td>
+        </tr>
+        <tr>
+        <td>Descriptions</td>
+        <td>{{ getMovie.descriptions }}</td>
+        </tr>
+        <tr>
+        <td>Nation</td>
+        <td>{{ getMovie.nation }}</td>
+        </tr>
+        <tr>
+        <td>Runtime</td>
+        <td>{{ getMovie.runtime }}</td>
+        </tr>
+        <tr>
+        <td>Rating Grade</td>
+        <td>{{ getMovie.ratingGrade }}</td>
+        </tr>
+        <tr>
+        <td>Release Date</td>
+        <td>{{ getMovie.releaseDt }}</td>
+        </tr>
+    </tbody>
+    </table>
+        <b-button v-b-modal.modal-center>Stills</b-button>
+        <div>
+            <b-modal id="modal-center" centered :title="getMovie.title">
+                <b-carousel
+                id="carousel-fade"
+                style="text-shadow: 0px 0px 2px #000"
+                fade
+                indicators
+                img-width="1024"
+                img-height="480"
+                >
+                <b-carousel-slide v-for="still in stills" :key="still.id"
+                :img-src="still"
+                ></b-carousel-slide>
+                </b-carousel> 
+                <template v-slot:modal-footer="{ cancel }">
+                    <b-button size="sm" variant="danger" @click="cancel()">
+                        닫기
+                    </b-button>
+                </template>
+            </b-modal>
+        </div>
+        <div class="ui comments center">
+            <h3 class="ui dividing header">Reviews</h3>
+            <div class="comment" v-for="rate in getMovie.rating_set" :key="rate.id">
+                <a v-show="!rating.like"><i class="heart outline icon"></i></a>
+                <a v-show="rating.like"><i class="heart icon"></i></a>
+                <div class="content">
+                    <div class="text">
+                        {{ rate.comment }}
+                    </div>
+                </div>
+                <button class="ui button" v-show="getUserpk==rate.user" type="submit" @click="deleterating(rating)">삭제</button>
+            </div>
+        </div>
         <sweet-modal ref="modal">
             <sweet-modal-tab title="좋아요" id="tab1">
                 <a v-show="!rating.likes" @click.prevent="likesChange"><i class="heart outline icon"></i></a>
                 <a v-show="rating.likes" @click.prevent="likesChange"><i class="heart icon"></i></a>
-                <!-- <button v-show="rating.likes" @click="likesChange">좋아요</button>
-                <button v-show="!rating.likes" @click="likesChange">싫어요</button> -->
             </sweet-modal-tab>
             <sweet-modal-tab title="키워드" id="tab2">
                 <div>
@@ -130,7 +168,7 @@ export default {
             togglewish: false,
             rating: {
                 movieid: 0,
-                ratingid: 4,
+                ratingid: 0,
                 likes: false,
                 comment: '',
                 keyword1: 0,
@@ -173,6 +211,9 @@ export default {
                 }
             }
             return flag
+        },
+        stills () {
+            return this.getMovie.stills.split('|')
         }
     },
     created () {

@@ -1,6 +1,8 @@
 <template>
     <div>
-        회원가입
+        <h1 class="ui header">
+            SIGN UP
+        </h1>
         <signupform/>
     </div>
 </template>

@@ -8,8 +8,9 @@
     <div class="ui huge button black">
       <router-link to="/signup">Sign Up</router-link>
     </div>
-    <br>
-    <hr/>
+    <div class="ui horizontal divider">
+      Or
+    </div>
     <div class="ui huge button black">
       <span v-show="!isLoggedIn" @click="open">Login</span>
     </div>
