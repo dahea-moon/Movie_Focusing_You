@@ -1,13 +1,16 @@
 <template>
     <Bubble id="page-wrap">
+        <router-link to="/signup">
+            <span v-show="!isLoggedIn">Sign Up</span>
+        </router-link>
         <router-link to="/home">
-            <span>Home</span>
+            <span v-show="isLoggedIn">Home</span>
         </router-link>
         <router-link to="/mypage">
             <span v-show="isLoggedIn">My Page</span>
         </router-link>
         <router-link to="/all">
-            <span>전체 영화보기</span>
+            <span v-show="isLoggedIn">전체 영화보기</span>
         </router-link>
     </Bubble>
 </template>

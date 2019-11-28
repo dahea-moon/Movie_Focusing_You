@@ -39,6 +39,7 @@ const mutations = {
     pushMovieError: (state, error) => state.movieerrors.push(error),
     setMovieid: (state, movieid) => {
         state.movieid = movieid
+        sessionStorage.setItem('movie', movieid);
     },
     setRatingid: (state, ratingid) => state.ratingid = ratingid,
     setRatingcount: (state, number) => state.ratingcount = number,
@@ -211,9 +212,9 @@ const actions = {
     // 영화 아이디 잡기
     pushtoMovie: ({ commit }, movie) => {
         commit('setMovie', movie)
+        const movieid = movie.id
+        commit('setMovieid', movieid)
     }
-    
-
 }
 
 

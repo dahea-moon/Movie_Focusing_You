@@ -9,7 +9,7 @@
       <label for ="password">Password</label>
       <input name="password" type="password" v-model="credentials.password">
     </div>
-    <button type="submit" @click.prevent="login(credentials)">로그인</button>
+    <button type="submit" @click="$router.push('/home')" @click.prevent="login(credentials)">로그인</button>
   </div>
 </template>
 

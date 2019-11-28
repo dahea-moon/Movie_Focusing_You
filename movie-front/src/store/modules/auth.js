@@ -39,9 +39,13 @@ const mutations = {
     pushError: (state, error) => state.errors.push(error),
     clearErrors: state => state.errors = [],
     setUserdetail: (state, detail) => state.userdetail = detail,
-    setUsername: (state, username) => state.username = username,
+    setUsername: (state, username) => {
+        state.username = username
+        sessionStorage.setItem('username', username);
+    },
     setUserpk: (state, userpk) => {
-        state.username = userpk
+        state.userpk = userpk
+        sessionStorage.setItem('userpk', userpk);
     }
 };
 
@@ -49,6 +53,9 @@ const actions = {
     logout: ({ commit }) => {
         commit('setToken', null);
         sessionStorage.removeItem('jwt');
+        sessionStorage.removeItem('username');
+        sessionStorage.removeItem('userpk');
+        sessionStorage.removeItem('movie');
         router.push('/');
     },
     
@@ -99,7 +106,7 @@ const actions = {
                         }
                         commit('setLoading', false);
                     })
-                }
+            }
         }
     },
     signup: ({ commit, getters, dispatch }, userInfo) => {

@@ -1,13 +1,30 @@
 <template>
     <div>
-        {{ getMovie }}
-        {{ getMovie.rating_set }}
+        <img :src="getMovie.poster" :alt="getMovie.title">
+        {{ getMovie.title }}
+        {{ getMovie.titleEng }}
+        {{ getMovie.director }}
+        {{ getMovie.actors }}
+        {{ getMovie.nation }}
+        {{ getMovie.plot }}
+        {{ getMovie.runtime }}
+        {{ getMovie.ratingGrade }}
+        {{ getMovie.descriptions }}
+        {{ getMovie.releaseDt }}
+        {{ getMovie.stills }}
+        
+        <ul v-for="rate in getMovie.rating_set" :key="rate.id">
+            <a v-show="!rating.like"><i class="heart outline icon"></i></a>
+            <a v-show="rating.like"><i class="heart icon"></i></a>
+            {{ rate.comment }}
+            <button v-show="getUserpk==rate.user" type="submit" @click="deleterating(rating)">삭제하기</button>
+        </ul>
         <sweet-modal ref="modal">
             <sweet-modal-tab title="좋아요" id="tab1">
-                <!-- <button v-show="rating.likes" @click.prevent="likesChange"><i class="heart outline icon"></i></button>
-                <button v-show="!rating.likes" @click.prevent="likesChange"><i class="heart icon"></i></button> -->
-                <button v-show="rating.likes" @click="likesChange">좋아요</button>
-                <button v-show="!rating.likes" @click="likesChange">싫어요</button>
+                <a v-show="!rating.likes" @click.prevent="likesChange"><i class="heart outline icon"></i></a>
+                <a v-show="rating.likes" @click.prevent="likesChange"><i class="heart icon"></i></a>
+                <!-- <button v-show="rating.likes" @click="likesChange">좋아요</button>
+                <button v-show="!rating.likes" @click="likesChange">싫어요</button> -->
             </sweet-modal-tab>
             <sweet-modal-tab title="키워드" id="tab2">
                 <div>
@@ -35,7 +52,7 @@
                         <option value="21">화끈한</option>
                         <option value="22">오글거리는</option>
                         <option value="23">감성적인</option>                                                                      
-                    </select>            
+                    </select>
                 </div>
                 <div>
                     <select name="keyword2" id="" v-model="rating.keyword2">
@@ -70,11 +87,9 @@
                 <button v-show="!isValued" type="submit" @click.prevent="sendRating(rating)">등록</button>
                 <button v-show="isValued" type="submit" @click.prevent="updateRating(rating)">수정</button>                
             </sweet-modal-tab>
-            <!-- icons is an object containing SVG strings -->
         </sweet-modal>
         <span v-show="!isValued" @click="open">평가하기</span>
         <span v-show="isValued" @click="open">수정하기</span>
-        <button type="submit" @click="deleterating(rating)">삭제하기</button>
         <button v-show="!togglewish" type="submit" @click.prevent="addwishlist(rating.movieid)" @click="toggleWish">Wish</button>
         <button v-show="togglewish" type="submit" @click.prevent="deletewish(rating.movieid)" @click="toggleWish">취소</button>
     </div>
@@ -94,7 +109,7 @@ export default {
             togglewish: false,
             rating: {
                 movieid: 0,
-                ratingid: 0,
+                ratingid: 4,
                 likes: false,
                 comment: '',
                 keyword1: 0,
@@ -124,7 +139,7 @@ export default {
             if (this.isValued) {
                 this.rating.ratingid = this.getRatings[this.isValued-1].id
             }
-        }
+        },
     },
     computed: {
         ...mapGetters(['getMovie','getUserpk', 'getMovieid', 'getRatingcount', 'getRatings']),
@@ -140,8 +155,9 @@ export default {
         }
     },
     created () {
-        this.getmoviedetail(this.getMovieid);
-        this.rating.movieid = this.getMovieid
+        const movieid = sessionStorage.getItem('movie')
+        this.getmoviedetail(movieid);
+        this.rating.movieid = movieid
         this.getRatingid();
     }
 }
