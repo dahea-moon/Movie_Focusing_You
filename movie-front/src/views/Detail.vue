@@ -75,7 +75,7 @@
                         {{ rate.comment }}
                     </div>
                 </div>
-                <button class="ui button" v-show="getUserpk==rate.user" type="submit" @click="deleterating(rating)">삭제</button>
+                <button class="ui button" v-show="getUserpk==rate.user" type="submit" @click="setRatingid(rating.id)" @click.prevent="deleterating(rating)">삭제</button>
             </div>
         </div>
         <sweet-modal ref="modal">
@@ -199,6 +199,9 @@ export default {
                 this.rating.ratingid = this.getRatings[this.isValued-1].id
             }
         },
+        setRatingid (id) {
+            this.rating.ratingid = id
+        }
     },
     computed: {
         ...mapGetters(['getMovie','getUserpk', 'getMovieid', 'getRatingcount', 'getRatings']),
