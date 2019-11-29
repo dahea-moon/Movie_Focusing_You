@@ -26,6 +26,10 @@
         <td>{{ getMovie.descriptions }}</td>
         </tr>
         <tr>
+        <td>Users Rating</td>
+        <td>{{ getMovie.k1_content }}, {{ getMovie.k2_content}}</td>
+        </tr>
+        <tr>
         <td>Nation</td>
         <td>{{ getMovie.nation }}</td>
         </tr>
