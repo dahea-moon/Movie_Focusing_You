@@ -6,7 +6,7 @@
                 {{ error }}
             </li>
         </div>
-        <b-form @submit="signup(userInfo)">
+        <b-form>
         <b-form-group
             id="input-group-1"
             label="Email address:"
@@ -31,10 +31,21 @@
             ></b-form-input>
         </b-form-group>
 
-        <b-form-group id="input-group-4" label="Your Passwird:" label-for="input-4">
+        <b-form-group id="input-group-4" label="Your Password:" label-for="input-4">
             <b-form-input
             id="input-4"
+            type="password"
             v-model="userInfo.password"
+            required
+            placeholder="Enter Password"
+            ></b-form-input>
+        </b-form-group>
+
+        <b-form-group id="input-group-7" label="Password Confirmation:" label-for="input-4">
+            <b-form-input
+            type="password"
+            id="input-7"
+            v-model="userInfo.passwordconfirm"
             required
             placeholder="Enter Password"
             ></b-form-input>
@@ -44,20 +55,22 @@
             <b-form-select
             id="input-3"
             v-model="userInfo.genre1"
-            :options="genres"
             required
-            ></b-form-select>
+            >
+            <option v-for="genre in genres" :key="genre.id" :value="genre.id">{{genre.value}}</option>
+            </b-form-select>
         </b-form-group>
 
         <b-form-group id="input-group-5" label="Second Favorite Genre:" label-for="input-5">
             <b-form-select
             id="input-5"
             v-model="userInfo.genre2"
-            :options="genres"
             required
-            ></b-form-select>
+            >
+            <option v-for="genre in genres" :key="genre.id" :value="genre.id">{{genre.value}}</option>
+            </b-form-select>
         </b-form-group>
-        <b-button type="submit" variant="primary">Submit</b-button>
+        <b-button type="submit" variant="primary" @click.prevent="signup(userInfo)">Submit</b-button>
         </b-form>
     </div>
 </template>
@@ -77,7 +90,7 @@ export default {
                 genre1: 0,
                 genre2: 0
             },
-            genres: ['드라마', '뮤직', '전기', '미스터리', 'SF', '코미디', '액션', '범죄', '어드벤처', '가족', '멜로드라마', '공포', '스릴러', '전쟁', '판타지']
+            genres: [{id:1, value:'드라마'}, {id:2, value:'뮤직'}, {id:3, value:'전기'}, {id:4, value:'미스터리'}, {id:5, value:'SF'}, {id:6, value:'코미디'}, {id:7, value:'액션'}, {id:8, value:'범죄'}, {id:9, value:'어드벤처'}, {id:10, value:'가족'}, {id:11, value:'멜로드라마'}, {id:12, value:'공포'}, {id:13, value:'스릴러'}, {id:14, value:'전쟁'}, {id:15, value:'판타지'}]
         }
     },
     methods: {
