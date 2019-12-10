@@ -1,4 +1,4 @@
-# MOVIEFOCUSINGYOU
+# MOVIE FOCUSING YOU
 
 created by 김지희 @jhee514 , 문다혜 @dahea-moon
 
