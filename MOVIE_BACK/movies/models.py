@@ -71,6 +71,24 @@ class Movie(models.Model):
         related_name='movie_sub_keyword2'
         )
 
+    def genre1_name(self):
+        return Genre.objects.get(id=self.genre1.id).name
+
+    def genre2_name(self):
+        return Genre.objects.get(id=self.genre1.id).name
+
+    def keyword1_content(self):
+        if self.keyword1:
+            return Keyword.objects.get(id=self.keyword1.id).content
+
+    def keyword2_content(self):
+        if self.keyword2:
+            return Keyword.objects.get(id=self.keyword2.id).content
+
+    def keyword3_content(self):
+        if self.keyword3:
+            return Keyword.objects.get(id=self.keyword3.id).content
+
     def __str__(self):
         return f'{self.id}: {self.title}'
 
@@ -82,6 +100,14 @@ class Rating(models.Model):
     comment = models.CharField(max_length=100)
     keyword1 = models.ForeignKey(Keyword, null=True, on_delete=models.SET_NULL, related_name='rating_main_keword')
     keyword2 = models.ForeignKey(Keyword, null=True, on_delete=models.SET_NULL, related_name='rating_sub_keyword')
+
+    def keyword1_content(self):
+        if self.keyword1:
+            return Keyword.objects.get(id=self.keyword1.id).content
+
+    def keyword2_content(self):
+        if self.keyword2:
+            return Keyword.objects.get(id=self.keyword2.id).content 
 
     def __str__(self):
         return f'{self.id} => by: {self.user.id} {self.keyword1} || {self.keyword2} || {self.comment}'

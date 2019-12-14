@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import django_heroku
 import datetime
 from decouple import config
 
@@ -162,5 +163,4 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'accounts.User'
 
 # Django - Heroku 설정
-import djago_heroku
 django_heroku.settings(locals())

@@ -37,6 +37,24 @@ class User(AbstractUser):
     watchedlist = models.ManyToManyField(Movie, blank=True, related_name='watched_users')
     rates = models.ManyToManyField(Movie, blank=True, through='movies.Rating', related_name='rated_user')
 
+    # def wishlist_content(self):
+    #     for wish in self.wishlist:
+    #         return 
+
+    def keyword1_content(self):
+        if self.keyword1:
+            return Keyword.objects.get(id=self.keyword1.id).content
+
+    def keyword2_content(self):
+        if self.keyword2:
+            return Keyword.objects.get(id=self.keyword2.id).content
+
+    def genre1_name(self):
+        return Genre.objects.get(id=self.genre1.id).name
+
+    def genre2_name(self):
+        return Genre.objects.get(id=self.genre2.id).name
+
     def get_absolute_url(self):
         return reverse("accounts:user_page", kwargs={"user_id": self.pk})
 

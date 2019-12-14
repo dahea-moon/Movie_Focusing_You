@@ -2,11 +2,11 @@ from django.shortcuts import get_object_or_404
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny, IsAuthenticated  # 회원가입은, 인증을 볼 필요가 없음.
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 
-from rest_framework.response import Response  # json 응답 생성기
-from rest_framework.decorators import api_view  # require_methods
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 from django.shortcuts import render
 from django.core import serializers
 
@@ -54,7 +54,6 @@ def update_user_keyword(request):
     keyword1 = sorted_key_cnts_keylist[0]
     keyword2 = sorted_key_cnts_keylist[1]
     
-    # User.keyword1 => update
     serializer = UserSerializer(instance=user, data={'keyword1':keyword1, 'keyword2':keyword2}, partial=True)
     if serializer.is_valid():
         serializer.save()
@@ -87,7 +86,6 @@ def update_movie_keyword(request, movie_id):
     keyword2 = sorted_key_cnts_keylist[1]
     keyword3 = sorted_key_cnts_keylist[2]
     
-    # User.keyword1 => update
     serializer = MovieSerializer(instance=movie, data={'keyword1':keyword1, 'keyword2':keyword2, 'keyword3':keyword3}, partial=True)
     if serializer.is_valid():
         serializer.save()
@@ -100,54 +98,46 @@ def movie_recommendations(request):
     user = request.user
     genre1 = user.genre1
     genre2 = user.genre2
-    
-    # update_user_keyword(request)
     keyword1 = user.keyword1
     keyword2 = user.keyword2
-    # print(keyword1, keyword2)
 
     query = Q(keyword1=keyword1) & Q(keyword2=keyword2)
 
-    movies_set = Movie.objects.filter(query)
-    
-    embed()
-    # for movie in movies_set:
-    #     if user in movie.watched_users.all():
-    #         movies_set.exclude(id=watched.id)
+    watched = user.watchedlist.all().values('id')
+    movies_set = Movie.objects.exclude(id__in=watched).filter(query)
 
-    if movies_set.count() > 5:
-        movies_set = movies_set.random(5)
+    if movies_set.count() > 8:
+        movies_set = movies_set.random(8)
 
     else:
         query.add(Q(keyword1=keyword2) & Q(keyword2=keyword1), Q.OR)
-        movies_set = Movie.objects.filter(query)
+        movies_set = Movie.objects.exclude(id__in=watched).filter(query)
 
-        if movies_set.count() < 5:
+        if movies_set.count() < 8:
             query.add(Q(keyword1=keyword1) | Q(keyword2=keyword1), Q.OR)
-            movies_set = Movie.objects.filter(query)
+            movies_set = Movie.objects.exclude(id__in=watched).filter(query)
 
-        if movies_set.count() < 5:
+        if movies_set.count() < 8:
             query.add(Q(keyword1=keyword2) | Q(keyword2=keyword2), Q.OR)
-            movies_set = Movie.objects.filter(query)
+            movies_set = Movie.objects.exclude(id__in=watched).filter(query)
 
-        if movies_set.count() < 5:
+        if movies_set.count() < 8:
             query.add(Q(genre1=genre1) & Q(genre2=genre2), Q.OR)
-            movies_set = Movie.objects.filter(query)
+            movies_set = Movie.objects.exclude(id__in=watched).filter(query)
 
-        if movies_set.count() < 5:
+        if movies_set.count() < 8:
             query.add(Q(genre1=genre2) & Q(genre2=genre1), Q.OR)
-            movies_set = Movie.objects.filter(query)
+            movies_set = Movie.objects.exclude(id__in=watched).filter(query)
 
-        if movies_set.count() < 5:
+        if movies_set.count() < 8:
             query.add(Q(genre1=genre1) | Q(genre2=genre1), Q.OR)
-            movies_set = Movie.objects.filter(query)
+            movies_set = Movie.objects.exclude(id__in=watched).filter(query)
 
-        if movies_set.count() < 5:
+        if movies_set.count() < 8:
             query.add(Q(genre1=genre2) | Q(genre2=genre2), Q.OR)
-            movies_set = Movie.objects.filter(query)
+            movies_set = Movie.objects.exclude(id__in=watched).filter(query)
 
-        movies_set = Movie.objects.filter(query)[:5]
-
+        movies_set = Movie.objects.exclude(id__in=watched).filter(query)[:8]
     serializer = MovieSerializer(movies_set, many=True)
     return Response(serializer.data)
 
@@ -214,3 +204,4 @@ def wishlist(request, movie_id):
 
 
 # def search(request):
+    # pass

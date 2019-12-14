@@ -9,11 +9,29 @@ class UserCreationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'password', 'email', 'genre1', 'genre2')
-        # fields = ('id', 'username', 'password', 'email', 'genre1', 'genre2', 'keyword1', 'keyword2', 'wishlist', 'watchedlist', 'rates')
 
 
 class UserSerializer(serializers.ModelSerializer):
-    
+    k1_content = serializers.CharField(source='keyword1_content')
+    k2_content = serializers.CharField(source='keyword2_content')
+    g1_name = serializers.CharField(source='genre1_name')
+    g2_name = serializers.CharField(source='genre2_name')
+
     class Meta:
         model = User
-        fields = ('id', 'username', 'keyword1', 'keyword2', 'genre1', 'genre2', 'wishlist', 'watchedlist', 'rates')
+        fields = (
+            'id',
+            'username',
+            'keyword1',
+            'keyword2',
+            'genre1',
+            'genre2',
+            'wishlist',
+            'watchedlist',
+            'rates',
+            'k1_content',
+            'k2_content',
+            'g1_name',
+            'g2_name',
+        )
+        
